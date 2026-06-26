@@ -4,6 +4,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Public Complaint Management System</title>
 
 
@@ -16,83 +17,212 @@
 
 <body>
 
+<!-- Navbar -->
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand fw-bold fs-2 text-warning" href="/">
-    🏛️ PCMS
+
+
+<div class="container">
+
+    <a class="navbar-brand d-flex align-items-center fw-bold fs-3 text-warning" href="/">
+
+     <img src="{{ url_for('static', filename='images/logo.png') }}"
+         alt="PCMS Logo"
+         width="50"
+         height="50"
+         class="me-2">
+
+     PCMS
+
+    </a>
+    <div>
+
+        <a href="/register" class="btn btn-warning me-2">
+            Register
         </a>
 
+        <a href="/login" class="btn btn-light">
+            Login
+        </a>
 
-    <div>
-        <a href="/register" class="btn btn-warning">Register</a>
-        <a href="/login" class="btn btn-warning">Login</a>
     </div>
+
 </div>
 
 
 </nav>
 
-<div class="container mt-5">
+<!-- Hero Section -->
+
+<div class="hero">
 
 
-<div class="text-center">
+<img src="{{ url_for('static', filename='images/logo.png') }}"
+     alt="PCMS Logo">
 
-    <h1 class="display-4 text-primary">
-        Public Complaint Management System
-    </h1>
+<h1>
+    Public Complaint Management System
+</h1>
 
-    <p class="lead mt-3">
-        Report public issues and track complaint status online.
-    </p>
+<p class="lead mt-3">
+    Report public issues and track complaint status online.
+</p>
 
-    <a href="/register" class="btn btn-primary btn-lg me-3">
-        Register
+<div class="mt-4">
+
+    <a href="/register" class="btn btn-warning btn-lg me-2">
+        Register Now
     </a>
 
-    <a href="/login" class="btn btn-success btn-lg">
+    <a href="/login" class="btn btn-light btn-lg">
         Login
     </a>
 
 </div>
 
-<div class="row mt-5">
+
+</div>
+
+<!-- Complaint Categories -->
+
+<div class="container mt-5">
+
+
+<h2 class="text-center text-primary mb-5">
+    Complaint Categories
+</h2>
+
+<div class="row g-4">
 
     <div class="col-md-3">
-        <div class="card shadow">
+
+        <div class="card shadow feature-card">
+
             <div class="card-body text-center">
-                <h5>💧 Water Supply</h5>
+
+                <h1>💧</h1>
+
+                <h5>Water Supply</h5>
+
+                <p>
+                    Report water leakage and supply issues.
+                </p>
+
             </div>
+
         </div>
+
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow">
+
+        <div class="card shadow feature-card">
+
             <div class="card-body text-center">
-                <h5>⚡ Electricity</h5>
+
+                <h1>⚡</h1>
+
+                <h5>Electricity</h5>
+
+                <p>
+                    Register electricity related complaints.
+                </p>
+
             </div>
+
         </div>
+
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow">
+
+        <div class="card shadow feature-card">
+
             <div class="card-body text-center">
-                <h5>🛣 Road Damage</h5>
+
+                <h1>🛣️</h1>
+
+                <h5>Road Damage</h5>
+
+                <p>
+                    Report damaged roads and potholes.
+                </p>
+
             </div>
+
         </div>
+
     </div>
 
     <div class="col-md-3">
-        <div class="card shadow">
+
+        <div class="card shadow feature-card">
+
             <div class="card-body text-center">
-                <h5>🗑 Garbage Issues</h5>
+
+                <h1>🗑️</h1>
+
+                <h5>Garbage Issues</h5>
+
+                <p>
+                    Report sanitation and waste problems.
+                </p>
+
             </div>
+
         </div>
+
     </div>
 
 </div>
 
 
 </div>
+
+<!-- Statistics Section -->
+
+<div class="container mt-5">
+
+
+<div class="row text-center">
+
+    <div class="col-md-4">
+
+        <h2 class="text-primary">1000+</h2>
+
+        <p>Complaints Submitted</p>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h2 class="text-success">800+</h2>
+
+        <p>Complaints Resolved</p>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h2 class="text-warning">24/7</h2>
+
+        <p>Citizen Support</p>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<footer class="text-center">
+
+
+© 2026 Public Complaint Management System (PCMS)
+
+
+</footer>
 
 </body>
+
 </html>

@@ -1,83 +1,393 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    margin: 0;
-    padding: 0;
+/* =====================================
+PCMS - Public Complaint Management System
+===================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
 }
 
-.container {
-    width: 500px;
-    margin: 50px auto;
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 0px 10px gray;
-}
+/* =====================================
+BODY
+===================================== */
 
-h2 {
-    text-align: center;
-    color: #2c3e50;
-}
-
-input,
-select,
-textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-button {
-    width: 100%;
-    padding: 12px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #0056b3;
-}
 body{
-background:#f4f6f9;
-font-family: Arial, sans-serif;
+min-height:100vh;
+background:linear-gradient(135deg,#0d6efd,#00c6ff);
 }
+
+/* =====================================
+NAVBAR
+===================================== */
 
 .navbar{
-background:#0d6efd;
-padding:15px;
+background:#0d6efd !important;
+box-shadow:0 4px 20px rgba(0,0,0,0.15);
 }
 
-.navbar a{
+.navbar-brand{
+font-weight:700;
+font-size:32px;
+}
+
+.navbar-brand img{
+border-radius:8px;
+}
+
+/* =====================================
+HERO SECTION
+===================================== */
+
+.hero{
+min-height:85vh;
+
+
+display:flex;
+flex-direction:column;
+
+justify-content:center;
+align-items:center;
+
+text-align:center;
+
 color:white;
-text-decoration:none;
-margin-right:20px;
-font-weight:bold;
+
 }
 
-.card-box{
-background:white;
-padding:30px;
+.hero img{
+width:220px;
+margin-bottom:25px;
+}
+
+.hero h1{
+font-size:60px;
+font-weight:700;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:22px;
+max-width:700px;
+margin-bottom:30px;
+}
+
+.hero .btn{
+padding:12px 35px;
 border-radius:10px;
-box-shadow:0px 0px 15px rgba(0,0,0,0.1);
+font-size:18px;
+font-weight:600;
 }
 
-.btn-custom{
-background:#0d6efd;
-color:white;
+/* =====================================
+CATEGORY CARDS
+===================================== */
+
+.category-card{
 border:none;
-padding:10px 20px;
-border-radius:5px;
+border-radius:20px;
+padding:30px;
+background:white;
+
+
+transition:0.3s;
+
+box-shadow:0 8px 25px rgba(0,0,0,0.12);
+
+
 }
 
-.btn-custom:hover
+.category-card:hover{
+transform:translateY(-10px);
+}
 
-h1,h2,h3{
+.category-icon{
+font-size:55px;
+}
+
+.category-card h4{
+margin-top:15px;
+font-weight:600;
+}
+
+/* =====================================
+LOGIN / REGISTER CARDS
+===================================== */
+
+.register-card,
+.login-card{
+max-width:700px;
+border:none;
+border-radius:25px;
+overflow:hidden;
+
+
+background:white;
+
+box-shadow:0 15px 35px rgba(0,0,0,0.25);
+
+
+}
+
+.form-area{
+padding:40px;
+}
+
+.form-control{
+padding:12px;
+border-radius:12px;
+}
+
+.form-control:focus{
+box-shadow:none;
+border-color:#0d6efd;
+}
+
+.logo{
+width:180px;
+}
+
+.page-title{
 color:#0d6efd;
+font-weight:700;
+}
+
+.page-subtitle{
+color:#666;
+}
+
+/* =====================================
+BUTTONS
+===================================== */
+
+.btn-register{
+background:#0d6efd;
+border:none;
+border-radius:10px;
+padding:12px;
+font-size:18px;
+font-weight:600;
+}
+
+.btn-register:hover
+
+.btn-login{
+background:#198754;
+border:none;
+border-radius:10px;
+padding:12px;
+font-size:18px;
+font-weight:600;
+}
+
+.btn-login:hover
+
+/* =====================================
+DASHBOARD
+===================================== */
+
+.dashboard-card{
+border:none;
+border-radius:20px;
+
+
+background:white;
+
+transition:0.3s;
+
+box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+
+}
+
+.dashboard-card:hover{
+transform:translateY(-10px);
+}
+
+.dashboard-icon{
+font-size:70px;
+color:#0d6efd;
+}
+
+.dashboard-card h3{
+font-weight:700;
+margin-top:15px;
+}
+
+.dashboard-card p{
+color:#666;
+}
+
+/* =====================================
+STATS SECTION
+===================================== */
+
+.stats{
+padding:60px 0;
+}
+
+.stats-box{
+text-align:center;
+color:white;
+}
+
+.stats-box h2{
+font-size:50px;
+font-weight:700;
+}
+
+/* =====================================
+FOOTER
+===================================== */
+
+footer{
+text-align:center;
+color:white;
+padding:20px;
+}
+
+/* =====================================
+LINKS
+===================================== */
+
+a{
+text-decoration:none;
+}
+
+a:hover{
+text-decoration:underline;
+}
+
+/* =====================================
+MOBILE
+===================================== */
+
+@media(max-width:768px){
+
+
+.hero h1{
+    font-size:40px;
+}
+
+.hero p{
+    font-size:18px;
+}
+
+.hero img{
+    width:160px;
+}
+
+.register-card,
+.login-card{
+    margin:20px;
+}
+
+.form-area{
+    padding:25px;
+}
+
+
+}
+
+/* =====================================
+   ADMIN DASHBOARD
+===================================== */
+
+.admin-title{
+    color:#0d6efd;
+    font-weight:700;
+    text-align:center;
+    margin-bottom:40px;
+}
+
+.admin-card{
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,0.15);
+    transition:0.3s;
+    height:100%;
+}
+
+.admin-card:hover{
+    transform:translateY(-5px);
+}
+
+.admin-card .card-header{
+    background:#0d6efd;
+    color:white;
+    font-weight:600;
+}
+
+.complaint-photo{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.status-badge{
+    font-size:14px;
+    padding:8px 15px;
+    border-radius:20px;
+}
+
+.logout-btn{
+    border-radius:10px;
+    padding:10px 25px;
+    font-weight:600;
+}
+
+/* ===========================
+   COMPLAINT PAGE
+=========================== */
+
+.complaint-page{
+    background: linear-gradient(135deg,#0d6efd,#00c6ff);
+    min-height:100vh;
+    padding-top:40px;
+}
+
+.complaint-card{
+    max-width:900px;
+    margin:auto;
+    border:none;
+    border-radius:20px;
+    overflow:hidden;
+    background:white;
+    box-shadow:0 10px 35px rgba(0,0,0,0.25);
+    padding:30px;
+}
+
+.complaint-card h2{
+    font-weight:700;
+}
+
+.complaint-card .form-control,
+.complaint-card .form-select{
+    border-radius:12px;
+    padding:12px;
+}
+
+.complaint-card textarea{
+    resize:none;
+}
+
+.complaint-card .btn-primary{
+    border-radius:12px;
+    font-size:18px;
+    font-weight:600;
+    padding:12px;
+}
+
+.complaint-card .btn-primary:hover{
+    transform:translateY(-2px);
+    transition:0.3s;
+}
+
+.alert-success{
+    border-radius:12px;
 }
