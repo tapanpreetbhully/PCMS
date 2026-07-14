@@ -1,186 +1,71 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
-
-<title>User Dashboard - PCMS</title>
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet">
-
-<link rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-<link rel="stylesheet"
-      href="{{ url_for('static', filename='css/style.css') }}">
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - PCMS</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
 
-<!-- Navbar -->
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-
-
-<div class="container">
-
-    <a class="navbar-brand d-flex align-items-center fw-bold fs-3 text-warning"
-       href="/">
-
-        <img src="{{ url_for('static', filename='images/logo.png') }}"
-             alt="PCMS Logo"
-             width="50"
-             height="50"
-             class="me-2">
-
-        PCMS
-
-    </a>
-
-    <a href="/logout" class="btn btn-danger">
-        Logout
-    </a>
-
-</div>
-
-
-</nav>
-
-<!-- Welcome Section -->
-
-<div class="container mt-5">
-
-
-<div class="text-center">
-
-    <h1 class="text-primary fw-bold">
-        Welcome to PCMS Dashboard
-    </h1>
-
-    <p class="lead">
-        Manage your complaints and track their status.
-    </p>
-
-</div>
-
-
-</div>
-
-<!-- Dashboard Cards -->
-
-<div class="container mt-5">
-
-
-<div class="row g-4">
-
-    <!-- Submit Complaint -->
-
-    <div class="col-md-6">
-
-        <div class="card dashboard-card shadow-lg">
-
-            <div class="card-body text-center">
-
-                <div class="dashboard-icon">
-                    <i class="bi bi-pencil-square"></i>
-                </div>
-
-                <h3 class="mt-3">
-                    Submit Complaint
-                </h3>
-
-                <p class="text-muted">
-                    Register a new complaint and track its progress.
-                </p>
-
-                <a href="/complaint"
-                   class="btn btn-primary">
-                    Submit Now
-                </a>
-
-            </div>
-
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center fw-bold fs-3 text-warning" href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="PCMS Logo" width="50" height="50" class="me-2">
+                PCMS
+            </a>
+            <a href="/logout" class="btn btn-danger">Logout</a>
         </div>
+    </nav>
 
+    <div class="container mt-5">
+        <div class="text-center">
+            <h1 class="text-primary fw-bold">Welcome to PCMS Dashboard</h1>
+            <p class="lead">Manage your complaints and track their status.</p>
+        </div>
     </div>
 
-    <!-- My Complaints -->
-
-    <div class="col-md-6">
-
-        <div class="card dashboard-card shadow-lg">
-
-            <div class="card-body text-center">
-
-                <div class="dashboard-icon">
-                    <i class="bi bi-card-checklist"></i>
+    <div class="container mt-5">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card dashboard-card shadow-lg">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <h3 class="mt-3">Submit Complaint</h3>
+                        <p class="text-muted">Register a new complaint and track its progress.</p>
+                        <a href="/complaint" class="btn btn-primary">Submit Now</a>
+                    </div>
                 </div>
-
-                <h3 class="mt-3">
-                    My Complaints
-                </h3>
-
-                <p class="text-muted">
-                    View all complaints submitted by you.
-                </p>
-
-                <a href="/my_complaints"
-                   class="btn btn-success">
-                    View Complaints
-                </a>
-
             </div>
-
+            <div class="col-md-6">
+                <div class="card dashboard-card shadow-lg">
+                    <div class="card-body text-center">
+                        <div class="dashboard-icon">
+                            <i class="bi bi-card-checklist"></i>
+                        </div>
+                        <h3 class="mt-3">My Complaints</h3>
+                        <p class="text-muted">View all complaints submitted by you.</p>
+                        <a href="/my_complaints" class="btn btn-success">View Complaints</a>
+                    </div>
+                </div>
+            </div>
         </div>
-
     </div>
 
-</div>
+    <div class="container mt-5">
+        <div class="alert alert-info text-center">
+            <h5>Citizen Service Portal</h5>
+            <p class="mb-0">Submit complaints related to Water Supply, Electricity, Roads, Sanitation and other public services.</p>
+        </div>
+    </div>
 
-
-</div>
-
-<!-- Information Section -->
-
-<div class="container mt-5">
-
-
-<div class="alert alert-info text-center">
-
-    <h5>Citizen Service Portal</h5>
-
-    <p class="mb-0">
-        Submit complaints related to Water Supply,
-        Electricity, Roads, Sanitation and other
-        public services.
-    </p>
-
-</div>
-
-
-</div>
-
-<!-- Footer -->
-
-<footer class="text-center mt-5 mb-3">
-
-
-<p>
-    © 2026 Public Complaint Management System (PCMS)
-</p>
-
-
-</footer>
+    <footer class="text-center mt-5 mb-3">
+        <p>© 2026 Public Complaint Management System (PCMS)</p>
+    </footer>
 
 </body>
-
 </html>

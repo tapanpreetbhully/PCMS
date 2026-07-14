@@ -1,393 +1,310 @@
-/* =====================================
-PCMS - Public Complaint Management System
-===================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:'Poppins',sans-serif;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-/* =====================================
-BODY
-===================================== */
-
-body{
-min-height:100vh;
-background:linear-gradient(135deg,#0d6efd,#00c6ff);
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0d6efd, #00c6ff);
 }
 
-/* =====================================
-NAVBAR
-===================================== */
-
-.navbar{
-background:#0d6efd !important;
-box-shadow:0 4px 20px rgba(0,0,0,0.15);
+.navbar {
+    background: #0d6efd !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-.navbar-brand{
-font-weight:700;
-font-size:32px;
+.navbar-brand {
+    font-weight: 700;
+    font-size: 32px;
 }
 
-.navbar-brand img{
-border-radius:8px;
+.navbar-brand img {
+    border-radius: 8px;
 }
 
-/* =====================================
-HERO SECTION
-===================================== */
-
-.hero{
-min-height:85vh;
-
-
-display:flex;
-flex-direction:column;
-
-justify-content:center;
-align-items:center;
-
-text-align:center;
-
-color:white;
-
+.hero {
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
 }
 
-.hero img{
-width:220px;
-margin-bottom:25px;
+.hero img {
+    width: 220px;
+    margin-bottom: 25px;
 }
 
-.hero h1{
-font-size:60px;
-font-weight:700;
-margin-bottom:20px;
+.hero h1 {
+    font-size: 60px;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 
-.hero p{
-font-size:22px;
-max-width:700px;
-margin-bottom:30px;
+.hero p {
+    font-size: 22px;
+    max-width: 700px;
+    margin-bottom: 30px;
 }
 
-.hero .btn{
-padding:12px 35px;
-border-radius:10px;
-font-size:18px;
-font-weight:600;
+.hero .btn {
+    padding: 12px 35px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-/* =====================================
-CATEGORY CARDS
-===================================== */
-
-.category-card{
-border:none;
-border-radius:20px;
-padding:30px;
-background:white;
-
-
-transition:0.3s;
-
-box-shadow:0 8px 25px rgba(0,0,0,0.12);
-
-
+.category-card, .feature-card {
+    border: none;
+    border-radius: 20px;
+    padding: 30px;
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
 }
 
-.category-card:hover{
-transform:translateY(-10px);
+.category-card:hover, .feature-card:hover {
+    transform: translateY(-10px);
 }
 
-.category-icon{
-font-size:55px;
+.category-icon {
+    font-size: 55px;
 }
 
-.category-card h4{
-margin-top:15px;
-font-weight:600;
+.category-card h4 {
+    margin-top: 15px;
+    font-weight: 600;
 }
 
-/* =====================================
-LOGIN / REGISTER CARDS
-===================================== */
-
-.register-card,
-.login-card{
-max-width:700px;
-border:none;
-border-radius:25px;
-overflow:hidden;
-
-
-background:white;
-
-box-shadow:0 15px 35px rgba(0,0,0,0.25);
-
-
+.register-card, .login-card {
+    max-width: 700px;
+    border: none;
+    border-radius: 25px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
 }
 
-.form-area{
-padding:40px;
+.form-area {
+    padding: 40px;
 }
 
-.form-control{
-padding:12px;
-border-radius:12px;
+.form-control {
+    padding: 12px;
+    border-radius: 12px;
 }
 
-.form-control:focus{
-box-shadow:none;
-border-color:#0d6efd;
+.form-control:focus {
+    box-shadow: none;
+    border-color: #0d6efd;
 }
 
-.logo{
-width:180px;
+.logo {
+    width: 180px;
 }
 
-.page-title{
-color:#0d6efd;
-font-weight:700;
+.page-title {
+    color: #0d6efd;
+    font-weight: 700;
 }
 
-.page-subtitle{
-color:#666;
+.page-subtitle {
+    color: #666;
 }
 
-/* =====================================
-BUTTONS
-===================================== */
-
-.btn-register{
-background:#0d6efd;
-border:none;
-border-radius:10px;
-padding:12px;
-font-size:18px;
-font-weight:600;
+.btn-register {
+    background: #0d6efd;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
 }
 
-.btn-register:hover
-
-.btn-login{
-background:#198754;
-border:none;
-border-radius:10px;
-padding:12px;
-font-size:18px;
-font-weight:600;
+.btn-register:hover {
+    background: #0b5ed7;
 }
 
-.btn-login:hover
-
-/* =====================================
-DASHBOARD
-===================================== */
-
-.dashboard-card{
-border:none;
-border-radius:20px;
-
-
-background:white;
-
-transition:0.3s;
-
-box-shadow:0 10px 30px rgba(0,0,0,0.15);
-
-
+.btn-login {
+    background: #198754;
+    border: none;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
 }
 
-.dashboard-card:hover{
-transform:translateY(-10px);
+.btn-login:hover {
+    background: #157347;
 }
 
-.dashboard-icon{
-font-size:70px;
-color:#0d6efd;
+.dashboard-card {
+    border: none;
+    border-radius: 20px;
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
-.dashboard-card h3{
-font-weight:700;
-margin-top:15px;
+.dashboard-card:hover {
+    transform: translateY(-10px);
 }
 
-.dashboard-card p{
-color:#666;
+.dashboard-icon {
+    font-size: 70px;
+    color: #0d6efd;
 }
 
-/* =====================================
-STATS SECTION
-===================================== */
-
-.stats{
-padding:60px 0;
+.dashboard-card h3 {
+    font-weight: 700;
+    margin-top: 15px;
 }
 
-.stats-box{
-text-align:center;
-color:white;
+.dashboard-card p {
+    color: #666;
 }
 
-.stats-box h2{
-font-size:50px;
-font-weight:700;
+.stats {
+    padding: 60px 0;
 }
 
-/* =====================================
-FOOTER
-===================================== */
-
-footer{
-text-align:center;
-color:white;
-padding:20px;
+.stats-box {
+    text-align: center;
+    color: white;
 }
 
-/* =====================================
-LINKS
-===================================== */
-
-a{
-text-decoration:none;
+.stats-box h2 {
+    font-size: 50px;
+    font-weight: 700;
 }
 
-a:hover{
-text-decoration:underline;
+footer {
+    text-align: center;
+    color: white;
+    padding: 20px;
 }
 
-/* =====================================
-MOBILE
-===================================== */
-
-@media(max-width:768px){
-
-
-.hero h1{
-    font-size:40px;
+a {
+    text-decoration: none;
 }
 
-.hero p{
-    font-size:18px;
+a:hover {
+    text-decoration: underline;
 }
 
-.hero img{
-    width:160px;
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 40px;
+    }
+    .hero p {
+        font-size: 18px;
+    }
+    .hero img {
+        width: 160px;
+    }
+    .register-card, .login-card {
+        margin: 20px;
+    }
+    .form-area {
+        padding: 25px;
+    }
 }
 
-.register-card,
-.login-card{
-    margin:20px;
+.admin-title {
+    color: #0d6efd;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 40px;
 }
 
-.form-area{
-    padding:25px;
+.admin-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+    height: 100%;
 }
 
-
+.admin-card:hover {
+    transform: translateY(-5px);
 }
 
-/* =====================================
-   ADMIN DASHBOARD
-===================================== */
-
-.admin-title{
-    color:#0d6efd;
-    font-weight:700;
-    text-align:center;
-    margin-bottom:40px;
+.admin-card .card-header {
+    background: #0d6efd;
+    color: white;
+    font-weight: 600;
 }
 
-.admin-card{
-    border:none;
-    border-radius:20px;
-    overflow:hidden;
-    box-shadow:0 8px 25px rgba(0,0,0,0.15);
-    transition:0.3s;
-    height:100%;
+.complaint-photo {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 10px;
 }
 
-.admin-card:hover{
-    transform:translateY(-5px);
+.status-badge {
+    font-size: 14px;
+    padding: 8px 15px;
+    border-radius: 20px;
 }
 
-.admin-card .card-header{
-    background:#0d6efd;
-    color:white;
-    font-weight:600;
+.logout-btn {
+    border-radius: 10px;
+    padding: 10px 25px;
+    font-weight: 600;
 }
 
-.complaint-photo{
-    width:100%;
-    height:220px;
-    object-fit:cover;
-    border-radius:10px;
+.complaint-page {
+    background: linear-gradient(135deg, #0d6efd, #00c6ff);
+    min-height: 100vh;
+    padding-top: 40px;
 }
 
-.status-badge{
-    font-size:14px;
-    padding:8px 15px;
-    border-radius:20px;
+.complaint-card {
+    max-width: 900px;
+    margin: auto;
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.25);
+    padding: 30px;
 }
 
-.logout-btn{
-    border-radius:10px;
-    padding:10px 25px;
-    font-weight:600;
+.complaint-card h2 {
+    font-weight: 700;
 }
 
-/* ===========================
-   COMPLAINT PAGE
-=========================== */
-
-.complaint-page{
-    background: linear-gradient(135deg,#0d6efd,#00c6ff);
-    min-height:100vh;
-    padding-top:40px;
+.complaint-card .form-control, .complaint-card .form-select {
+    border-radius: 12px;
+    padding: 12px;
 }
 
-.complaint-card{
-    max-width:900px;
-    margin:auto;
-    border:none;
-    border-radius:20px;
-    overflow:hidden;
-    background:white;
-    box-shadow:0 10px 35px rgba(0,0,0,0.25);
-    padding:30px;
+.complaint-card textarea {
+    resize: none;
 }
 
-.complaint-card h2{
-    font-weight:700;
+.complaint-card .btn-primary {
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 12px;
 }
 
-.complaint-card .form-control,
-.complaint-card .form-select{
-    border-radius:12px;
-    padding:12px;
+.complaint-card .btn-primary:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease;
 }
 
-.complaint-card textarea{
-    resize:none;
-}
-
-.complaint-card .btn-primary{
-    border-radius:12px;
-    font-size:18px;
-    font-weight:600;
-    padding:12px;
-}
-
-.complaint-card .btn-primary:hover{
-    transform:translateY(-2px);
-    transition:0.3s;
-}
-
-.alert-success{
-    border-radius:12px;
+.alert-success {
+    border-radius: 12px;
 }

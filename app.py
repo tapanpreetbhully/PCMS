@@ -1,306 +1,285 @@
 import os
-import re
-from flask import Flask, render_template, request, redirect, session, flash
 import mysql.connector
+from flask import Flask, render_template, request, redirect, session, flash
 from werkzeug.utils import secure_filename
+
 
 app = Flask(__name__)
 app.secret_key = "pcms_secret_key"
 
+# ── Database Settings (change password to match your MySQL) ──
+DB_HOST = "localhost"
+DB_USER = "root"
+DB_PASSWORD = "nonmedical"
+DB_NAME = "pcms"
 
-# Home Page
-@app.route('/')
+UPLOAD_FOLDER = os.path.join("static", "uploads")
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+
+# ───────────────────────── Home Page ─────────────────────────
+
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template("index.html")
 
-# Register Page
-@app.route('/register', methods=['GET', 'POST'])
+
+# ───────────────────────── Register ─────────────────────────
+
+@app.route("/register", methods=["GET", "POST"])
 def register():
-
-    if request.method == 'POST':
-
-        full_name = request.form['full_name']
-        email = request.form['email']
-        mobile = request.form['mobile']
-        password = request.form['password']
+    if request.method == "POST":
+        full_name = request.form["full_name"]
+        email = request.form["email"]
+        mobile = request.form["mobile"]
+        password = request.form["password"]
 
         db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="nonmedical",
-            database="pcms"
+            host=DB_HOST, user=DB_USER,
+            password=DB_PASSWORD, database=DB_NAME
         )
-
         cursor = db.cursor()
 
-        sql = """
-INSERT INTO users(name, email, phone, password)
-VALUES(%s, %s, %s, %s)
-"""
+        # Check if user already exists
+        cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
+        existing_user = cursor.fetchone()
 
-        values = (full_name, email, mobile, password)
+        if existing_user:
+            flash("Email already registered. Please login.", "warning")
+            cursor.close()
+            db.close()
+            return redirect("/register")
 
-        cursor.execute(sql, values)
+        # Insert new user
+        cursor.execute(
+            "INSERT INTO users (name, email, phone, password) VALUES (%s, %s, %s, %s)",
+            (full_name, email, mobile, password)
+        )
         db.commit()
+        cursor.close()
+        db.close()
 
-        return "Registration Successful!"
+        flash("Registration successful. Please login.", "success")
+        return redirect("/login")
 
-    return render_template('register.html')
+    return render_template("register.html")
 
-@app.route('/login', methods=['GET', 'POST'])
+
+# ───────────────────────── Login ─────────────────────────
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
 
-    if request.method == 'POST':
-
-        email = request.form['email']
-        password = request.form['password']
-
-        # Admin Login
+        # Admin login check
         if email == "admin@pcms.com" and password == "admin123":
+            session.clear()
+            session["admin"] = True
+            session["admin_email"] = email
+            flash("Admin login successful.", "success")
+            return redirect("/admin")
 
-            session['admin'] = True 
-
-            return redirect('/admin')
-
-
+        # Normal user login
         db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="nonmedical",
-            database="pcms"
+            host=DB_HOST, user=DB_USER,
+            password=DB_PASSWORD, database=DB_NAME
         )
-
         cursor = db.cursor()
 
-        sql = """
-        SELECT * FROM users
-        WHERE email=%s AND password=%s
-        """
-
-        cursor.execute(sql, (email, password))
-
+        cursor.execute(
+            "SELECT * FROM users WHERE email=%s AND password=%s",
+            (email, password)
+        )
         user = cursor.fetchone()
+        cursor.close()
+        db.close()
 
         if user:
-           
-
-           session['user'] = email 
-
-           
-           return redirect('/dashboard')
+            session.clear()
+            session["user"] = email
+            session["user_name"] = user[1]  # name column
+            flash("Login successful.", "success")
+            return redirect("/dashboard")
         else:
-            return "Invalid Email or Password"
+            flash("Invalid email or password.", "danger")
+            return redirect("/login")
 
-    return render_template('login.html')
+    return render_template("login.html")
 
-# Dashboard Page
-@app.route('/dashboard')
+
+# ───────────────────────── Dashboard ─────────────────────────
+
+@app.route("/dashboard")
 def dashboard():
+    if "user" not in session:
+        flash("Please login to continue.", "warning")
+        return redirect("/login")
+    return render_template("dashboard.html")
 
-    if 'user' not in session:
-        return redirect('/login')
 
-    return render_template('dashboard.html')
+# ───────────────────────── Submit Complaint ─────────────────────────
 
-# Complaint Page
-# Complaint Page
-
-@app.route('/complaint', methods=['GET', 'POST'])
+@app.route("/complaint", methods=["GET", "POST"])
 def complaint():
-  
-  if 'user' not in session:
-    return redirect('/login')
+    if "user" not in session:
+        flash("Please login to continue.", "warning")
+        return redirect("/login")
 
-  if request.method == 'POST':
+    if request.method == "POST":
+        category = request.form["category"]
+        title = request.form["title"]
+        description = request.form["description"]
+        location = request.form["location"]
+        photo = request.files.get("photo")
 
-    category = request.form['category']
-    title = request.form['title']
-    description = request.form['description']
-    location = request.form['location']
+        filename = ""
+        if photo and photo.filename != "":
+            filename = secure_filename(photo.filename)
+            photo.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
 
-    # new photo code#
-    photo = request.files['photo']
+        user_email = session["user"]
 
-    filename = ""
+        db = mysql.connector.connect(
+            host=DB_HOST, user=DB_USER,
+            password=DB_PASSWORD, database=DB_NAME
+        )
+        cursor = db.cursor()
 
-    if photo.filename != "":
-       filename = secure_filename(photo.filename)
+        cursor.execute(
+            """
+            INSERT INTO complaints
+            (title, description, category, location, user_email, photo, status)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            """,
+            (title, description, category, location, user_email, filename, "Pending")
+        )
+        db.commit()
 
-       import os
+        complaint_id = cursor.lastrowid
+        cursor.close()
+        db.close()
 
-       photo.save(
-           os.path.join("static", "uploads", filename)
-       )
-       
-    user_email = session['user']
+        flash("Complaint submitted successfully! Complaint ID: " + str(complaint_id), "success")
+        return redirect("/complaint")
 
-    db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nonmedical",
-        database="pcms"
-    )
+    return render_template("complaint.html")
 
-    cursor = db.cursor()
 
-    sql = """
-INSERT INTO complaints
-(title, description, category, location, user_email, photo)
-VALUES (%s, %s, %s, %s, %s, %s)
-"""
+# ───────────────────────── View My Complaints ─────────────────────────
 
-    values = (
-    title,
-    description,
-    category,
-    location,
-    user_email,
-    filename
-)
-
-    cursor.execute(sql, values)
-    db.commit()
-
-    flash(
-        f"Complaint Submitted Successfully! Complaint ID: {cursor.lastrowid}", "success")
-    return redirect('/complaint')
-  return render_template('complaint.html')
-# view complaint 
-@app.route('/view_complaints')
-def view_complaints():
+@app.route("/view_complaints")
+@app.route("/my_complaints")
+def my_complaints():
+    if "user" not in session:
+        flash("Please login to continue.", "warning")
+        return redirect("/login")
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nonmedical",
-        database="pcms"
+        host=DB_HOST, user=DB_USER,
+        password=DB_PASSWORD, database=DB_NAME
     )
+    cursor = db.cursor(dictionary=True)
 
-    cursor = db.cursor()
-
-    cursor.execute("""
-        SELECT complaint_id, category, title, status
-        FROM complaints
-    """)
-
+    cursor.execute(
+        "SELECT complaint_id, category, title, status FROM complaints WHERE user_email=%s ORDER BY complaint_id DESC",
+        (session["user"],)
+    )
     complaints = cursor.fetchall()
+    cursor.close()
+    db.close()
 
-    return render_template(
-        'view_complaints.html',
-        complaints=complaints
-    ) 
-@app.route('/admin')
+    return render_template("view_complaints.html", complaints=complaints)
+
+
+# ───────────────────────── Admin Panel ─────────────────────────
+
+@app.route("/admin")
 def admin():
-
-    if 'admin' not in session:
-        return redirect('/login')
+    if "admin" not in session:
+        flash("Admin access required.", "danger")
+        return redirect("/login")
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nonmedical",
-        database="pcms"
+        host=DB_HOST, user=DB_USER,
+        password=DB_PASSWORD, database=DB_NAME
     )
+    cursor = db.cursor(dictionary=True)
 
-    cursor = db.cursor()
-
-    cursor.execute("""
-    SELECT complaint_id,
-           category,
-           title,
-           description,
-           location,
-           status,
-           photo
-    FROM complaints
-   """)
+    cursor.execute(
+        "SELECT complaint_id, category, title, description, location, status, photo FROM complaints ORDER BY complaint_id DESC"
+    )
     complaints = cursor.fetchall()
+    cursor.close()
+    db.close()
 
-    return render_template(
-        'admin.html',
-        complaints=complaints
-    )
-@app.route('/update_status/<int:id>/<status>')
+    return render_template("admin.html", complaints=complaints)
+
+
+# ───────────────────────── Update Complaint Status ─────────────────────────
+
+@app.route("/update_status/<int:id>/<status>")
 def update_status(id, status):
+    if "admin" not in session:
+        flash("Admin access required.", "danger")
+        return redirect("/login")
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nonmedical",
-        database="pcms"
+        host=DB_HOST, user=DB_USER,
+        password=DB_PASSWORD, database=DB_NAME
     )
-
     cursor = db.cursor()
 
     cursor.execute(
         "UPDATE complaints SET status=%s WHERE complaint_id=%s",
         (status, id)
     )
-
     db.commit()
+    cursor.close()
+    db.close()
 
-    return redirect('/admin')
+    flash("Complaint updated successfully.", "success")
+    return redirect("/admin")
 
-@app.route('/my_complaints')
-def my_complaints():
 
-    if 'user' not in session:
-        return redirect('/login')
+# ───────────────────────── Delete Complaint ─────────────────────────
 
-    db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nonmedical",
-        database="pcms"
-    )
-
-    cursor = db.cursor()
-
-    cursor.execute("""
-        SELECT complaint_id, category, title, status
-        FROM complaints
-        WHERE user_email=%s
-    """, (session['user'],))
-
-    complaints = cursor.fetchall()
-
-    return render_template(
-        'my_complaints.html',
-        complaints=complaints
-    )
-
-@app.route('/logout')
-def logout():
-
-    session.clear()
-
-    return redirect('/login')
-
-@app.route('/delete_complaint/<int:id>')
+@app.route("/delete_complaint/<int:id>")
 def delete_complaint(id):
-
-    if 'admin' not in session:
-        return redirect('/login')
+    if "admin" not in session:
+        flash("Admin access required.", "danger")
+        return redirect("/login")
 
     db = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="nonmedical",
-        database="pcms"
+        host=DB_HOST, user=DB_USER,
+        password=DB_PASSWORD, database=DB_NAME
     )
-
     cursor = db.cursor()
 
     cursor.execute(
         "DELETE FROM complaints WHERE complaint_id=%s",
         (id,)
     )
-
     db.commit()
+    cursor.close()
+    db.close()
 
-    return redirect('/admin')
-
-if __name__ == '__main__':
- app.run(debug=True)
+    flash("Complaint deleted successfully.", "success")
+    return redirect("/admin")
 
 
+# ───────────────────────── Logout ─────────────────────────
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have been logged out successfully.", "success")
+    return redirect("/login")
+
+
+# ───────────────────────── Run App ─────────────────────────
+
+if __name__ == "__main__":
+    app.run(debug=True)
