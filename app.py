@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = "pcms_secret_key"
 
-# ── Database Settings (change password to match your MySQL) ──
+# database connection settings
 DB_HOST = "localhost"
 DB_USER = "root"
 DB_PASSWORD = "nonmedical"
@@ -18,15 +18,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 
-# ───────────────────────── Home Page ─────────────────────────
-
+# home page
 @app.route("/")
 def home():
     return render_template("index.html")
 
 
-# ───────────────────────── Register ─────────────────────────
-
+# user registration
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -41,7 +39,7 @@ def register():
         )
         cursor = db.cursor()
 
-        # Check if user already exists
+        # check if email already exists
         cursor.execute("SELECT * FROM users WHERE email=%s", (email,))
         existing_user = cursor.fetchone()
 
@@ -51,7 +49,7 @@ def register():
             db.close()
             return redirect("/register")
 
-        # Insert new user
+        # save the new user
         cursor.execute(
             "INSERT INTO users (name, email, phone, password) VALUES (%s, %s, %s, %s)",
             (full_name, email, mobile, password)
@@ -66,15 +64,14 @@ def register():
     return render_template("register.html")
 
 
-# ───────────────────────── Login ─────────────────────────
-
+# login for both user and admin
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
 
-        # Admin login check
+        # check if its admin
         if email == "admin@pcms.com" and password == "admin123":
             session.clear()
             session["admin"] = True
@@ -82,7 +79,7 @@ def login():
             flash("Admin login successful.", "success")
             return redirect("/admin")
 
-        # Normal user login
+        # otherwise check from database
         db = mysql.connector.connect(
             host=DB_HOST, user=DB_USER,
             password=DB_PASSWORD, database=DB_NAME
@@ -100,7 +97,7 @@ def login():
         if user:
             session.clear()
             session["user"] = email
-            session["user_name"] = user[1]  # name column
+            session["user_name"] = user[1]
             flash("Login successful.", "success")
             return redirect("/dashboard")
         else:
@@ -110,8 +107,7 @@ def login():
     return render_template("login.html")
 
 
-# ───────────────────────── Dashboard ─────────────────────────
-
+# user dashboard
 @app.route("/dashboard")
 def dashboard():
     if "user" not in session:
@@ -120,8 +116,7 @@ def dashboard():
     return render_template("dashboard.html")
 
 
-# ───────────────────────── Submit Complaint ─────────────────────────
-
+# submit a new complaint
 @app.route("/complaint", methods=["GET", "POST"])
 def complaint():
     if "user" not in session:
@@ -135,6 +130,7 @@ def complaint():
         location = request.form["location"]
         photo = request.files.get("photo")
 
+        # handle photo upload if provided
         filename = ""
         if photo and photo.filename != "":
             filename = secure_filename(photo.filename)
@@ -168,8 +164,7 @@ def complaint():
     return render_template("complaint.html")
 
 
-# ───────────────────────── View My Complaints ─────────────────────────
-
+# view complaints filed by logged in user
 @app.route("/view_complaints")
 @app.route("/my_complaints")
 def my_complaints():
@@ -194,8 +189,7 @@ def my_complaints():
     return render_template("view_complaints.html", complaints=complaints)
 
 
-# ───────────────────────── Admin Panel ─────────────────────────
-
+# admin panel - shows all complaints
 @app.route("/admin")
 def admin():
     if "admin" not in session:
@@ -218,8 +212,7 @@ def admin():
     return render_template("admin.html", complaints=complaints)
 
 
-# ───────────────────────── Update Complaint Status ─────────────────────────
-
+# update complaint status (admin only)
 @app.route("/update_status/<int:id>/<status>")
 def update_status(id, status):
     if "admin" not in session:
@@ -244,8 +237,7 @@ def update_status(id, status):
     return redirect("/admin")
 
 
-# ───────────────────────── Delete Complaint ─────────────────────────
-
+# delete a complaint (admin only)
 @app.route("/delete_complaint/<int:id>")
 def delete_complaint(id):
     if "admin" not in session:
@@ -270,16 +262,13 @@ def delete_complaint(id):
     return redirect("/admin")
 
 
-# ───────────────────────── Logout ─────────────────────────
-
+# logout
 @app.route("/logout")
 def logout():
     session.clear()
     flash("You have been logged out successfully.", "success")
     return redirect("/login")
 
-
-# ───────────────────────── Run App ─────────────────────────
 
 if __name__ == "__main__":
     app.run(debug=True)
